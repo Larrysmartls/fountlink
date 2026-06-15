@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FountLinks — Bespoke Men's Fashion, Nigeria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white:      #FFFFFF;
+      --off-white:  #F7F7F5;
+      --black:      #0A0A0A;
+      --hero-bg:    #0C0B0A;
+      --dark:       #111111;
+      --gold:       #C9A84C;
+      --gold-dim:   rgba(201,168,76,0.3);
+      --gold-glow:  rgba(201,168,76,0.15);
+      --gray:       #6B6B6B;
+      --light-gray: #E5E5E3;
+      --fd: 'Playfair Display', serif;
+      --fb: 'Inter', sans-serif;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--fb);background:var(--white);color:var(--black);overflow-x:hidden}
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes slideUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes floatSuit{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+    @keyframes floorPulse{0%,100%{transform:scaleX(1);opacity:.5}50%{transform:scaleX(.72);opacity:.85}}
+    @keyframes orbitCW{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+    @keyframes orbitCCW{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
+    @keyframes particleRise{0%{opacity:0;transform:translateY(0) scale(.2)}12%{opacity:1}85%{opacity:.4}100%{opacity:0;transform:translateY(-140px) scale(.4)}}
+    @keyframes glowBreathe{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}}
+    @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+    @keyframes navDrop{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes scanLine{0%{top:-10%}100%{top:110%}}
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal{opacity:0;transform:translateY(44px);transition:opacity .75s ease,transform .75s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+
+    /* ─── NAV ─── */
+    nav{
+      position:fixed;inset:0 0 auto 0;height:72px;z-index:500;
+      display:flex;align-items:center;justify-content:space-between;padding:0 5%;
+      background:rgba(12,11,10,.85);backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(201,168,76,.12);
+      animation:navDrop .6s ease both;
+    }
+    .nav-logo{
+      font-family:var(--fd);font-size:1.5rem;font-weight:700;text-decoration:none;
+      letter-spacing:-.02em;
+      background:linear-gradient(90deg,#fff 0%,var(--gold) 45%,#fff 100%);
+      background-size:220%;-webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;
+    }
+    .nav-links{display:flex;align-items:center;gap:2.5rem}
+    .nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;transition:color .25s}
+    .nav-links a:hover{color:#fff}
+    .nav-cta{background:var(--gold)!important;color:var(--black)!important;padding:.6rem 1.5rem;font-weight:600!important;transition:opacity .2s!important}
+    .nav-cta:hover{opacity:.82}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .hamburger span{display:block;width:24px;height:2px;background:#fff;transition:all .3s}
+    .mobile-menu{display:none;position:fixed;top:72px;left:0;right:0;background:rgba(12,11,10,.97);border-bottom:1px solid rgba(201,168,76,.1);padding:1.5rem 5%;z-index:499;flex-direction:column;gap:1.25rem}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-size:.875rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}
+    .mobile-menu a:hover{color:#fff}
+    .mobile-menu .nav-cta{background:var(--gold)!important;color:var(--black)!important;padding:.75rem 1.5rem;text-align:center;font-weight:600!important}
+
+    /* ─── HERO ─── */
+    #hero{
+      min-height:100vh;padding-top:72px;
+      display:grid;grid-template-columns:1fr 1fr;
+      background:radial-gradient(ellipse at 22% 60%,#1e170d 0%,var(--hero-bg) 58%);
+      position:relative;overflow:hidden;
+    }
+    /* grain overlay */
+    #hero::before{
+      content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+      opacity:.55;
+    }
+    /* scan line on right half */
+    .scan-line{
+      position:absolute;top:-10%;right:0;width:50%;height:2px;
+      background:linear-gradient(to right,transparent,rgba(201,168,76,.08),transparent);
+      animation:scanLine 8s linear infinite;pointer-events:none;z-index:1;
+    }
+
+    /* HERO LEFT */
+    .hero-left{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:5rem 3% 5rem 5%}
+    .hero-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.75rem;animation:slideUp .7s .4s ease both}
+    .hero-title{font-family:var(--fd);font-size:clamp(3.4rem,5.5vw,5.75rem);font-weight:900;line-height:.95;letter-spacing:-.04em;color:#fff}
+    .hero-title .t1{display:block;animation:slideUp .7s .55s ease both}
+    .hero-title .t2{display:block;animation:slideUp .7s .7s ease both}
+    .hero-title .t3{display:block;font-style:italic;color:var(--gold);animation:slideUp .7s .85s ease both}
+    .hero-sub{font-size:1rem;line-height:1.8;color:rgba(255,255,255,.48);max-width:380px;margin:2rem 0 2.5rem;animation:slideUp .7s 1s ease both}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:slideUp .7s 1.15s ease both}
+    .hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.07);animation:slideUp .7s 1.3s ease both}
+    .stat-num{font-family:var(--fd);font-size:2rem;font-weight:700;color:#fff}
+    .stat-label{font-size:.67rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-top:.2rem}
+
+    /* HERO RIGHT */
+    .hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;animation:fadeIn .9s .6s ease both}
+    /* background radial glow */
+    .hero-glow{position:absolute;top:50%;left:50%;width:420px;height:420px;background:radial-gradient(circle,rgba(201,168,76,.18) 0%,transparent 70%);transform:translate(-50%,-50%);animation:glowBreathe 4.5s ease-in-out infinite;pointer-events:none}
+    /* rings */
+    .ring{position:absolute;top:50%;left:50%;border-radius:50%;pointer-events:none}
+    .ring-1{width:460px;height:460px;border:1px solid rgba(201,168,76,.13);animation:orbitCW 28s linear infinite}
+    .ring-1::before,.ring-1::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold),0 0 20px rgba(201,168,76,.4);left:50%;transform:translateX(-50%)}
+    .ring-1::before{top:-3.5px}.ring-1::after{bottom:-3.5px;top:auto}
+    .ring-2{width:355px;height:355px;border:1px dashed rgba(201,168,76,.08);animation:orbitCCW 18s linear infinite}
+    .ring-2::before{content:'';position:absolute;width:5px;height:5px;border-radius:50%;background:rgba(201,168,76,.6);right:-2.5px;top:50%;transform:translateY(-50%)}
+    /* floating suit */
+    .suit-float{position:relative;z-index:3;width:270px;animation:floatSuit 5s ease-in-out infinite}
+    .suit-frame{
+      position:relative;overflow:hidden;
+      box-shadow:0 0 0 1px rgba(201,168,76,.14),0 25px 70px rgba(0,0,0,.65),0 0 100px rgba(201,168,76,.07);
+    }
+    .suit-frame img{width:100%;height:420px;object-fit:cover;object-position:center top;display:block}
+    .suit-fade{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(to top,#0C0B0A,transparent);pointer-events:none}
+    /* floor glow */
+    .floor-glow{
+      position:absolute;bottom:7%;left:50%;transform:translateX(-50%);
+      width:230px;height:28px;
+      background:radial-gradient(ellipse,rgba(201,168,76,.38) 0%,transparent 70%);
+      filter:blur(14px);animation:floorPulse 5s ease-in-out infinite;pointer-events:none;z-index:2;
+    }
+    /* particles */
+    #hero-particles{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+    .particle{position:absolute;border-radius:50%;background:var(--gold);animation:particleRise var(--dur) var(--dly) ease-out infinite}
+    /* scroll hint */
+    .scroll-hint{position:absolute;bottom:2.5rem;left:5%;display:flex;align-items:center;gap:.75rem;font-size:.67rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28);z-index:10;animation:fadeIn 1s 2s ease both}
+    .scroll-hint-line{width:40px;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
+
+    /* ─── BUTTONS ─── */
+    .btn-gold,.btn-ghost{display:inline-block;font-family:var(--fb);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:1rem 2rem;cursor:pointer;transition:all .25s;border:none}
+    .btn-gold{background:var(--gold);color:var(--black)}
+    .btn-gold:hover{background:#dbb94f;transform:translateY(-3px);box-shadow:0 14px 35px rgba(201,168,76,.38)}
+    .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.22)}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+    .btn-dark{display:inline-block;font-family:var(--fb);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:1rem 2rem;background:var(--black);color:#fff;border:none;cursor:pointer;transition:all .25s}
+    .btn-dark:hover{background:var(--gold);color:var(--black);transform:translateY(-3px);box-shadow:0 10px 28px rgba(201,168,76,.32)}
+
+    /* ─── ABOUT ─── */
+    #about{padding:8rem 5%;background:var(--off-white)}
+    .about-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:center}
+    .about-img-wrap{position:relative}
+    .about-img-wrap img{width:100%;height:520px;object-fit:cover;display:block}
+    .about-img-accent{position:absolute;bottom:-1.5rem;right:-1.5rem;width:100px;height:100px;background:var(--gold);z-index:-1}
+    .section-label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+    .section-title{font-family:var(--fd);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;color:var(--black)}
+    .gold-rule{width:48px;height:3px;background:var(--gold);margin:1.75rem 0}
+    .body-text{font-size:.975rem;line-height:1.85;color:var(--gray);margin-bottom:1.5rem}
+
+    /* ─── GALLERY ─── */
+    #gallery{padding:8rem 5%;background:var(--white)}
+    .section-header{text-align:center;margin-bottom:3.5rem}
+    .section-header .section-title{margin-top:.5rem}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:300px 300px;gap:10px;max-width:1200px;margin:0 auto}
+    .g-item{position:relative;overflow:hidden;background:#1a1a1a;cursor:pointer}
+    .g-item.tall{grid-row:span 2}
+    .g-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+    .g-item:hover img{transform:scale(1.08)}
+    .g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.5rem}
+    .g-item:hover .g-overlay{opacity:1}
+    .g-label{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#fff;transform:translateY(8px);transition:transform .4s ease}
+    .g-item:hover .g-label{transform:translateY(0)}
+    .g-item::after{content:'';position:absolute;top:0;left:0;width:0;height:0;border-top:0 solid var(--gold);border-left:0 solid var(--gold);transition:all .4s ease}
+    .g-item:hover::after{width:30px;height:30px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+
+    /* ─── SERVICES ─── */
+    #services{padding:8rem 5%;background:var(--dark);position:relative;overflow:hidden}
+    #services::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:65px 65px;pointer-events:none}
+    #services .section-header .section-title{color:#fff}
+    .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+    .svc-card{background:rgba(17,17,17,.95);border:1px solid rgba(255,255,255,.06);padding:2.75rem 2rem;position:relative;overflow:hidden;transition:border-color .35s,background .35s}
+    .svc-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .4s ease}
+    .svc-card:hover{border-color:rgba(201,168,76,.28);background:rgba(201,168,76,.04)}
+    .svc-card:hover::before{height:100%}
+    .svc-icon{font-size:2rem;margin-bottom:1.5rem}
+    .svc-name{font-family:var(--fd);font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.75rem;line-height:1.3}
+    .svc-desc{font-size:.85rem;line-height:1.78;color:rgba(255,255,255,.44);margin-bottom:1.75rem}
+    .svc-price{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+
+    /* ─── TESTIMONIALS ─── */
+    #testimonials{padding:8rem 5%;background:var(--off-white)}
+    .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1200px;margin:0 auto}
+    .testi-card{background:var(--white);padding:2.5rem;border-bottom:3px solid transparent;transition:transform .3s ease,box-shadow .3s ease,border-color .3s}
+    .testi-card:hover{transform:translateY(-8px);box-shadow:0 22px 55px rgba(0,0,0,.1);border-color:var(--gold)}
+    .big-quote{font-family:var(--fd);font-size:4rem;line-height:1;color:var(--gold);margin-bottom:.75rem;opacity:.65}
+    .testi-text{font-size:.925rem;line-height:1.85;color:var(--gray);margin-bottom:2rem}
+    .testi-author{display:flex;align-items:center;gap:1rem}
+    .testi-avatar{width:44px;height:44px;border-radius:50%;background:var(--black);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.9rem;font-weight:700;flex-shrink:0}
+    .testi-name{font-size:.875rem;font-weight:600;color:var(--black)}
+    .testi-role{font-size:.75rem;color:var(--gray);margin-top:.15rem}
+
+    /* ─── CONTACT ─── */
+    #contact{padding:8rem 5%;background:var(--white)}
+    .contact-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start}
+    .contact-desc{font-size:.95rem;line-height:1.75;color:var(--gray);margin:1.25rem 0 2rem}
+    .contact-detail{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem;font-size:.875rem;color:var(--gray);line-height:1.5}
+    .detail-icon{width:40px;height:40px;background:var(--off-white);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .contact-form{display:flex;flex-direction:column;gap:1.25rem}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    .form-group{display:flex;flex-direction:column;gap:.5rem}
+    .form-label{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--black)}
+    .form-control{font-family:var(--fb);font-size:.9rem;color:var(--black);background:var(--white);border:1px solid var(--light-gray);padding:.875rem 1rem;outline:none;border-radius:0;-webkit-appearance:none;transition:border-color .25s,box-shadow .25s;width:100%}
+    .form-control:focus{border-color:var(--black);box-shadow:0 0 0 3px rgba(10,10,10,.06)}
+    select.form-control{cursor:pointer}
+    textarea.form-control{resize:vertical;min-height:130px}
+    .form-submit{background:var(--black);color:#fff;padding:1rem 2rem;font-family:var(--fb);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;width:100%;transition:all .25s}
+    .form-submit:hover{background:var(--gold);color:var(--black);transform:translateY(-2px);box-shadow:0 8px 25px rgba(201,168,76,.3)}
+
+    /* ─── FOOTER ─── */
+    footer{background:var(--hero-bg);color:#fff;padding:5rem 5% 2.5rem;position:relative}
+    footer::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;background:linear-gradient(to right,transparent,var(--gold-dim),transparent)}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-top{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:2rem}
+    .footer-brand-name{font-family:var(--fd);font-size:2rem;font-weight:700;background:linear-gradient(90deg,#fff,var(--gold),#fff);background-size:220%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 5s linear infinite}
+    .footer-tagline{font-size:.8rem;color:rgba(255,255,255,.32);margin-top:.5rem}
+    .footer-links{display:flex;gap:5rem}
+    .flink-group h4{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem}
+    .flink-group a{display:block;font-size:.85rem;color:rgba(255,255,255,.42);text-decoration:none;margin-bottom:.75rem;transition:color .2s}
+    .flink-group a:hover{color:#fff}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:rgba(255,255,255,.24)}
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:1024px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:900px){.testi-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}}
+    @media(max-width:768px){
+      .nav-links{display:none}.hamburger{display:flex}
+      #hero{grid-template-columns:1fr}
+      .hero-right{min-height:65vw;max-height:440px;order:-1}
+      .hero-left{padding:2.5rem 5% 3rem}
+      .suit-float{width:195px}.suit-frame img{height:280px}
+      .ring-1{width:300px;height:300px}.ring-2{width:240px;height:240px}.hero-glow{width:280px;height:280px}
+      .scroll-hint{display:none}
+      .about-inner{grid-template-columns:1fr;gap:3rem}
+      .about-img-wrap img{height:300px}.about-img-accent{display:none}
+      .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px 200px}
+      .g-item.tall{grid-row:span 1}
+      .services-grid{grid-template-columns:1fr}
+      .contact-inner{grid-template-columns:1fr;gap:3rem}
+      .form-row{grid-template-columns:1fr}
+      .footer-top{flex-direction:column;gap:2.5rem}.footer-links{flex-wrap:wrap;gap:2rem}
+      .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">FountLinks</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#services">Services</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact" class="nav-cta">Book a Fitting</a>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mmlink">About</a>
+  <a href="#gallery" class="mmlink">Gallery</a>
+  <a href="#services" class="mmlink">Services</a>
+  <a href="#testimonials" class="mmlink">Reviews</a>
+  <a href="#contact" class="nav-cta mmlink">Book a Fitting</a>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div id="hero-particles"></div>
+  <div class="scan-line"></div>
+
+  <!-- TEXT -->
+  <div class="hero-left">
+    <p class="hero-eyebrow">Lagos, Nigeria &nbsp;·&nbsp; Est. 2018</p>
+    <h1 class="hero-title">
+      <span class="t1">Dressed</span>
+      <span class="t2">to</span>
+      <span class="t3">Define.</span>
+    </h1>
+    <p class="hero-sub">Bespoke men's fashion crafted stitch by stitch. From razor-sharp suits to regal Agbada — every piece is built around exactly who you are.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-gold">Book a Fitting</a>
+      <a href="#gallery" class="btn-ghost">View Collection</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num" data-count="500" data-suffix="+">0+</div><div class="stat-label">Happy Clients</div></div>
+      <div><div class="stat-num" data-count="6" data-suffix="+">0+</div><div class="stat-label">Years Crafting</div></div>
+      <div><div class="stat-num" data-count="100" data-suffix="%">0%</div><div class="stat-label">Custom Made</div></div>
+    </div>
+  </div>
+
+  <!-- FLOATING SUIT -->
+  <div class="hero-right">
+    <div class="hero-glow"></div>
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="suit-float">
+      <div class="suit-frame">
+        <img id="hero-suit" src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=700&q=80" alt="FountLinks bespoke suit">
+        <div class="suit-fade"></div>
+      </div>
+    </div>
+    <div class="floor-glow"></div>
+  </div>
+
+  <div class="scroll-hint"><div class="scroll-hint-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=700&q=80" alt="FountLinks designer" onerror="this.style.background='#d0c9be';this.removeAttribute('src');">
+      <div class="about-img-accent"></div>
+    </div>
+    <div>
+      <span class="section-label reveal">About FountLinks</span>
+      <h2 class="section-title reveal rd1">Tailored for the<br>Modern Nigerian Man</h2>
+      <div class="gold-rule reveal rd2"></div>
+      <p class="body-text reveal rd2">FountLinks was born from a belief that every man deserves clothing that speaks before he does. Rooted in Lagos, we bring together the richness of African fashion heritage and the clean precision of modern tailoring.</p>
+      <p class="body-text reveal rd3">Whether you're walking into the boardroom in a handcrafted suit, commanding a room in a flowing Agbada, or keeping it elevated in bespoke casual wear — every piece reflects your story.</p>
+      <a href="#contact" class="btn-dark reveal rd4">Start Your Journey</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GALLERY ═══════════ -->
+<section id="gallery">
+  <div class="section-header">
+    <span class="section-label reveal">Our Work</span>
+    <h2 class="section-title reveal rd1">The Collection</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="g-item tall reveal">
+      <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=700&q=80" alt="Corporate suit" onerror="this.style.background='#222';this.removeAttribute('src');">
+      <div class="g-overlay"><span class="g-label">Corporate Suit</span></div>
+    </div>
+    <div class="g-item reveal rd1">
+      <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80" alt="Native collection" onerror="this.style.background='#2c2a27';this.removeAttribute('src');">
+      <div class="g-overlay"><span class="g-label">Native Collection</span></div>
+    </div>
+    <div class="g-item reveal rd2">
+      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80" alt="Casual elegance" onerror="this.style.background='#2e2c2a';this.removeAttribute('src');">
+      <div class="g-overlay"><span class="g-label">Casual Elegance</span></div>
+    </div>
+    <div class="g-item reveal rd1">
+      <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80" alt="Fabric detail" onerror="this.style.background='#1f1e1c';this.removeAttribute('src');">
+      <div class="g-overlay"><span class="g-label">Fabric Detail</span></div>
+    </div>
+    <div class="g-item reveal rd2">
+      <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600&q=80" alt="Street style" onerror="this.style.background='#28272a';this.removeAttribute('src');">
+      <div class="g-overlay"><span class="g-label">Street Style</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section id="services">
+  <div class="section-header">
+    <span class="section-label reveal">What We Offer</span>
+    <h2 class="section-title reveal rd1">Services &amp; Pricing</h2>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal">
+      <div class="svc-icon">👘</div>
+      <div class="svc-name">Native &amp; Agbada</div>
+      <p class="svc-desc">Flowing, regal native attire tailored to perfection — from Aso-Oke Agbadas to Ankara Senator styles for ceremonies and celebrations.</p>
+      <div class="svc-price">From ₦45,000</div>
+    </div>
+    <div class="svc-card reveal rd1">
+      <div class="svc-icon">🧥</div>
+      <div class="svc-name">Suits &amp; Corporate</div>
+      <p class="svc-desc">Sharp, structured suits built for the executive who understands that presence is power. Single or double breasted, slim or classic fit.</p>
+      <div class="svc-price">From ₦75,000</div>
+    </div>
+    <div class="svc-card reveal rd2">
+      <div class="svc-icon">👔</div>
+      <div class="svc-name">Casual &amp; Streetwear</div>
+      <p class="svc-desc">Elevated everyday pieces — custom polos, shirts, joggers, and co-ords with premium fabrics that keep you effortlessly sharp every day.</p>
+      <div class="svc-price">From ₦25,000</div>
+    </div>
+    <div class="svc-card reveal rd3">
+      <div class="svc-icon">✂️</div>
+      <div class="svc-name">Custom Request</div>
+      <p class="svc-desc">Bring a sketch, a reference, or just an idea. We'll consult, design, and deliver something entirely one-of-a-kind, built for you alone.</p>
+      <div class="svc-price">Quoted after consultation</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TESTIMONIALS ═══════════ -->
+<section id="testimonials">
+  <div class="section-header">
+    <span class="section-label reveal">Client Stories</span>
+    <h2 class="section-title reveal rd1">What They're Saying</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="big-quote">"</div>
+      <p class="testi-text">I wore my FountLinks suit to my wedding and received more compliments on it than anything else that day. The fit is unreal — like it was made for my body. Because it was.</p>
+      <div class="testi-author"><div class="testi-avatar">AO</div><div><div class="testi-name">Adebayo Okafor</div><div class="testi-role">Engineer · Lagos</div></div></div>
+    </div>
+    <div class="testi-card reveal rd1">
+      <div class="big-quote">"</div>
+      <p class="testi-text">As someone who travels constantly for business, having a tailor who understands the power of dressing well is invaluable. FountLinks delivers precision every time.</p>
+      <div class="testi-author"><div class="testi-avatar">CI</div><div><div class="testi-name">Chidi Ihejirika</div><div class="testi-role">Business Executive · Abuja</div></div></div>
+    </div>
+    <div class="testi-card reveal rd2">
+      <div class="big-quote">"</div>
+      <p class="testi-text">My Agbada for my father's 70th birthday was breathtaking. The embroidery, fabric, colour — everything came out exactly as I imagined. Truly gifted.</p>
+      <div class="testi-author"><div class="testi-avatar">EK</div><div><div class="testi-name">Emeka Kalu</div><div class="testi-role">Entrepreneur · Port Harcourt</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <span class="section-label reveal">Get in Touch</span>
+      <h2 class="section-title reveal rd1">Book Your<br>Fitting Session</h2>
+      <p class="contact-desc reveal rd2">Walk in with an idea, leave with a plan. Fill the form to book a consultation or request a custom piece — we confirm within 24 hours.</p>
+      <div class="contact-detail reveal rd2"><div class="detail-icon">📍</div><span>123 Bespoke Avenue, Victoria Island, Lagos, Nigeria</span></div>
+      <div class="contact-detail reveal rd3"><div class="detail-icon">📞</div><span>+234 800 000 0000</span></div>
+      <div class="contact-detail reveal rd3"><div class="detail-icon">✉️</div><span>hello@fountlinks.com</span></div>
+      <div class="contact-detail reveal rd4"><div class="detail-icon">🕐</div><span>Monday – Saturday &nbsp;|&nbsp; 9am – 6pm WAT</span></div>
+    </div>
+    <form class="contact-form reveal rd2" id="contactForm">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label" for="fn">Full Name</label><input id="fn" type="text" class="form-control" placeholder="Your full name" required></div>
+        <div class="form-group"><label class="form-label" for="fp">Phone Number</label><input id="fp" type="tel" class="form-control" placeholder="+234 xxx xxx xxxx" required></div>
+      </div>
+      <div class="form-group"><label class="form-label" for="fe">Email Address</label><input id="fe" type="email" class="form-control" placeholder="you@example.com"></div>
+      <div class="form-group">
+        <label class="form-label" for="fs">Service Type</label>
+        <select id="fs" class="form-control" required>
+          <option value="" disabled selected>Select a service</option>
+          <option>Native &amp; Agbada</option><option>Suits &amp; Corporate</option>
+          <option>Casual &amp; Streetwear</option><option>Custom Request</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="fnotes">Occasion / Notes</label><textarea id="fnotes" class="form-control" placeholder="Tell us about your event, style preferences, or references..."></textarea></div>
+      <button type="submit" class="form-submit" id="submitBtn">Send Request</button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div><div class="footer-brand-name">FountLinks</div><div class="footer-tagline">Bespoke Men's Fashion &nbsp;·&nbsp; Lagos, Nigeria</div></div>
+      <div class="footer-links">
+        <div class="flink-group"><h4>Navigate</h4><a href="#about">About</a><a href="#gallery">Gallery</a><a href="#services">Services</a><a href="#testimonials">Reviews</a></div>
+        <div class="flink-group"><h4>Services</h4><a href="#services">Native &amp; Agbada</a><a href="#services">Suits &amp; Corporate</a><a href="#services">Casual &amp; Streetwear</a><a href="#services">Custom Requests</a></div>
+        <div class="flink-group"><h4>Connect</h4><a href="#">Instagram</a><a href="#">WhatsApp</a><a href="#">Twitter / X</a><a href="#">TikTok</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 FountLinks. All rights reserved.</span><span>Crafted with care in Lagos 🇳🇬</span></div>
+  </div>
+</footer>
+
+<script>
+/* ─── PARTICLES ─── */
+(function(){
+  const c = document.getElementById('hero-particles');
+  for(let i=0;i<30;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = 1.5 + Math.random()*3.5;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${28+Math.random()*48}%;top:${25+Math.random()*58}%;--dur:${3+Math.random()*5}s;--dly:${Math.random()*7}s;opacity:0;`;
+    c.appendChild(p);
+  }
+})();
+
+/* ─── IMAGE FALLBACK ─── */
+(function(){
+  const img = document.getElementById('hero-suit');
+  const fallbacks = [
+    'https://images.unsplash.com/photo-1488161628813-04466f872be2?w=700&q=80',
+    'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=700&q=80',
+    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=700&q=80',
+  ];
+  let idx = 0;
+  img.onerror = () => { if(idx < fallbacks.length) img.src = fallbacks[idx++]; };
+})();
+
+/* ─── MOBILE NAV ─── */
+const ham = document.getElementById('hamburger');
+const mm  = document.getElementById('mobileMenu');
+ham.addEventListener('click', () => mm.classList.toggle('open'));
+document.querySelectorAll('.mmlink').forEach(l => l.addEventListener('click', () => mm.classList.remove('open')));
+
+/* ─── SCROLL REVEAL ─── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ─── STAT COUNTERS ─── */
+function animateCount(el) {
+  const target = parseInt(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const dur = 1600, step = 16;
+  let cur = 0, inc = target / (dur/step);
+  const t = setInterval(() => {
+    cur = Math.min(cur + inc, target);
+    el.textContent = Math.floor(cur) + suffix;
+    if(cur >= target) clearInterval(t);
+  }, step);
+}
+const statObs = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('[data-count]').forEach(animateCount);
+    statObs.disconnect();
+  }
+}, { threshold: 0.5 });
+const statsEl = document.querySelector('.hero-stats');
+if(statsEl) statObs.observe(statsEl);
+
+/* ─── FORM ─── */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Request Sent ✓';
+  btn.style.cssText = 'background:#C9A84C;color:#0A0A0A;transform:translateY(-2px)';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Send Request';
+    btn.style.cssText = '';
+    btn.disabled = false;
+    this.reset();
+  }, 3500);
+});
+
+/* ─── NAV ACTIVE ─── */
+const sects = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sects.forEach(s => { if(window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  navAs.forEach(a => { a.style.color = a.getAttribute('href') === '#'+cur ? 'rgba(255,255,255,.95)' : ''; });
+}, { passive: true });
+</script>
+</body>
+</html>
